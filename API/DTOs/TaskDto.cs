@@ -4,7 +4,7 @@ using API.Enums;
 
 namespace API.DTOs;
 
-public class TaskDto
+public class TaskDto : IValidatableObject
 {
     [Required(ErrorMessage = "Title is required.")]
     [MaxLength(100, ErrorMessage = "Title cannot exceed 100 character.")]
@@ -22,4 +22,15 @@ public class TaskDto
 
     [Required(ErrorMessage = "Project Id is required")]
     public int ProjectId { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext valiationContext)
+    {
+        if (TaskDueDate < DateOnly.FromDateTime(DateTime.Today))
+        {
+            yield return new ValidationResult(
+                "Task Due date cannot be in the past",
+                new[] { nameof(TaskDueDate) }
+            );
+        }
+    }
 }
