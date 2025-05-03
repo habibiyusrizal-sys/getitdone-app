@@ -1,13 +1,25 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using API.Enums;
 
 namespace API.DTOs;
 
 public class TaskDto
 {
+    [Required(ErrorMessage = "Title is required.")]
+    [MaxLength(100, ErrorMessage = "Title cannot exceed 100 character.")]
     public required string TaskTitle { get; set; }
-    public required string  TaskDescription { get; set; }
+
+    [MaxLength(500, ErrorMessage = "Description cannot exceed 500 character.")]
+    public string? TaskDescription { get; set; }
+
+    [Required(ErrorMessage = "Due Date is required.")]
     public required DateOnly TaskDueDate { get; set; }
+
+    [Required(ErrorMessage = "Status is required.")]
+    [EnumDataType(typeof(Status))]
     public required Status TaskStatus { get; set; }
+
+    [Required(ErrorMessage = "Project Id is required")]
     public int ProjectId { get; set; }
 }

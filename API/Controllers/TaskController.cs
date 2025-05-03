@@ -82,7 +82,7 @@ public class TaskController(DataContext context) : BaseApiController
         var task =  new Entities.Task
         {
             TaskTitle = taskDto.TaskTitle,
-            TaskDescription = taskDto.TaskDescription,
+            TaskDescription = taskDto.TaskDescription ?? string.Empty,
             TaskDueDate = taskDto.TaskDueDate,
             TaskStatus = taskDto.TaskStatus,
             ProjectId = taskDto.ProjectId
