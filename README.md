@@ -36,4 +36,12 @@ dotnet test
 	•	↔️ Navigate between Project and Task views
 	•	📱 Responsive design using Angular Material & Bootstrap
 
+🧠 Assumptions Made
+Each task is required to be linked to a project via projectId.
+taskDueDate is optional, but when provided, it's used to highlight overdue tasks.
+taskStatus is submitted as a string and mapped to an Enum in the backend.
+
+👨‍💼 Author
+Habibi – Software Engineer
+
 
