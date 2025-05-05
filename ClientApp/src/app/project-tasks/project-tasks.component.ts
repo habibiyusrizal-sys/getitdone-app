@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component,  OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProjectTasksService } from '../_services/project-tasks.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +23,6 @@ export class ProjectTasksComponent implements OnInit {
   projectId: number = 0;
   private route = inject(ActivatedRoute);
   private service = inject(ProjectTasksService);
-  private router = inject(Router);
   private dialog = inject(MatDialog);
 
   ngOnInit(): void {
