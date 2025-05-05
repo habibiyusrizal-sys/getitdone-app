@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Create Task</h2>
+<mat-dialog-content>
+  <form [formGroup]="taskForm">
+    <!-- Task Title -->
+    <mat-form-field class="w-100">
+      <mat-label>Task Title</mat-label>
+      <input matInput formControlName="taskTitle" />
+      <mat-error *ngIf="taskForm.get('taskTitle')?.hasError('required')">
+        Task title is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Task Description -->
+    <mat-form-field class="w-100">
+      <mat-label>Task Description</mat-label>
+      <textarea matInput formControlName="taskDescription"></textarea>
+    </mat-form-field>
+
+    <!-- Task Due Date -->
+    <mat-form-field class="w-100">
+      <mat-label>Due Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="taskDueDate"
+        [min]="today"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="taskForm.get('taskDueDate')?.hasError('required')">
+        Due date is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Task Status</mat-label>
+      <mat-select formControlName="taskStatus" name="status">
+        @for (status of status; track status) {
+        <mat-option [value]="status.viewValue">{{ status.viewValue }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="create()">Create</button>
+</mat-dialog-actions>

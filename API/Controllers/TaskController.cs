@@ -3,6 +3,7 @@ using API.DTOs;
 using API.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace API.Controllers;
 
@@ -16,15 +17,41 @@ public class TaskController(DataContext context) : BaseApiController
 
         if (task == null) return NotFound();
 
-
         return Ok( new TaskDto
         {
+            Id = task.Id,
             TaskTitle = task.TaskTitle,
             TaskDescription = task.TaskDescription,
             TaskDueDate = task.TaskDueDate,
             TaskStatus = task.TaskStatus,
-            ProjectId = task.ProjectId
         });
+    }
+
+    [HttpGet("{projectId:int}")]
+    public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasksByProject(int projectId)
+    {
+        var projectExist = await context.Projects.AnyAsync(p => p.Id == projectId);
+        if (!projectExist) return BadRequest("Project not found");
+
+        var groupedTasks = await context.Tasks
+                .Where(t => t.ProjectId == projectId)
+                .GroupBy(t => t.TaskStatus)
+                .Select(g => new
+                {
+                    TaskStatus = g.Key,
+                    Tasks = g.Select(t => new TaskDto
+                    {
+                        Id = t.Id,
+                        TaskTitle = t.TaskTitle,
+                        TaskDescription = t.TaskDescription,
+                        TaskDueDate = t.TaskDueDate,
+                        TaskStatus = t.TaskStatus,
+
+                    }).ToList()
+                })
+                .ToListAsync();
+
+        return Ok(groupedTasks);
     }
 
     [HttpGet("{projectId:int}/taskstatus")]
@@ -42,7 +69,7 @@ public class TaskController(DataContext context) : BaseApiController
                     TaskDescription = t.TaskDescription,
                     TaskDueDate = t.TaskDueDate,
                     TaskStatus = t.TaskStatus,
-                    ProjectId = t.ProjectId
+
                 } )
                 .ToListAsync();
 
@@ -63,21 +90,14 @@ public class TaskController(DataContext context) : BaseApiController
                         TaskDescription = t.TaskDescription,
                         TaskDueDate = t.TaskDueDate,
                         TaskStatus = t.TaskStatus,
-                        ProjectId = t.ProjectId
                     }).ToListAsync();
 
         return Ok(overdueTasks);
     }
 
     [HttpPost("createtask")]
-    public async Task<ActionResult<TaskDto>> CreateTask([FromBody] TaskDto taskDto)
+    public async Task<ActionResult> CreateTask([FromBody] TaskDto taskDto)
     {
-        var project = await context.Projects.FindAsync(taskDto.ProjectId);
-
-        if (project == null)
-        {
-            return NotFound($"Project not found");
-        }
 
         var task =  new Entities.Task
         {
@@ -91,19 +111,21 @@ public class TaskController(DataContext context) : BaseApiController
         context.Tasks.Add(task);
         await context.SaveChangesAsync();
 
-        // Sending a 201 Created status code
-        // Include location header
-        return CreatedAtAction(
-            nameof(GetTask),
-            new { id = task.Id},
-            new TaskDto
-            {
-                TaskTitle = task.TaskTitle,
-                TaskDescription = task.TaskDescription,
-                TaskDueDate = task.TaskDueDate,
-                TaskStatus = task.TaskStatus,
-                ProjectId = task.ProjectId
-            });
+        return Created($"/api/task/{task.Id}", null);
+    }
+
+    [HttpPatch("{taskId:int}/status")]
+    public async Task<IActionResult> UpdateTaskStatus(int taskId, [FromBody] TaskStatusDto statusDto)
+    {
+        Console.WriteLine(taskId);
+        var task = await context.Tasks.FindAsync(taskId);
+        if (task == null) return NotFound();
+
+        Status status = (Status)Enum.Parse(typeof(Status), statusDto.Status);
+        task.TaskStatus = status;
+        await context.SaveChangesAsync();
+
+        return NoContent();
     }
 
 

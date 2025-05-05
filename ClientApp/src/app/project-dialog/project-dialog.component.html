@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Create Project</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="projectForm">
+    <mat-form-field class="w-100">
+      <mat-label>Project Title</mat-label>
+      <input matInput formControlName="projectTitle" />
+      <mat-error *ngIf="projectForm.get('projectTitle')?.hasError('required')">
+        Project title is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Project Description</mat-label>
+      <textarea matInput formControlName="projectDesc"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="create()">Create</button>
+</mat-dialog-actions>

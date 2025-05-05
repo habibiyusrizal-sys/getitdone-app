@@ -15,6 +15,7 @@ public class ProjectController(DataContext context) : BaseApiController
         var projects = await context.Projects
             .Select( p => new ProjectDto
             {
+                Id = p.Id,
                 ProjectTitle = p.ProjectTitle,
                 ProjectDesc = p.ProjectDesc
             }).ToListAsync();

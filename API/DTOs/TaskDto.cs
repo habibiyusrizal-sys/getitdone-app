@@ -1,11 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using API.Enums;
-
 namespace API.DTOs;
 
 public class TaskDto : IValidatableObject
 {
+    public int Id { get; set; }
+
     [Required(ErrorMessage = "Title is required.")]
     [MaxLength(100, ErrorMessage = "Title cannot exceed 100 character.")]
     public required string TaskTitle { get; set; }

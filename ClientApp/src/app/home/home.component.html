@@ -1,0 +1,30 @@
+
+<div class="d-flex  justify-content-center">
+  <h1 class="text-center">Get it Done</h1>
+</div>
+<div class="card">
+   <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Projects</span>
+        <button #createBtn class="btn btn-sm btn-primary" (click)="createProjectDialog(createBtn)">+ Create</button>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-start"
+                *ngFor="let project of projects"  (click)="openProject(project)">
+            <div>
+                <h6>{{ project.projectTitle }}</h6>
+                <p class="mb-0 text-muted"> {{ project.projectDesc}}</p>
+            </div>
+
+            <div dropdown class="dropdown">
+                <button dropdownToggle type="button" class="btn btn-sm btn-link text-dark p-0">
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <div *dropdownMenu class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="#">Edit</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger">Delete</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -5,6 +5,8 @@ namespace API.DTOs;
 
 public class ProjectDto
 {
+    public int Id { get; set;}
+
     [Required(ErrorMessage = "Project title is required.")]
     [MaxLength(100, ErrorMessage = "Title cannot exceed 100 character")]
     public required string ProjectTitle { get; set; }

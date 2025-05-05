@@ -1,0 +1,65 @@
+<!-- Toolbar for navigation -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <button mat-icon-button color="primary" routerLink="/">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="mat-headline">GetItDone</span>
+  <span></span> <!-- Empty span to balance the toolbar -->
+</div>
+
+<!-- Project Title & Create Task -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="m-0">{{ projectTitle }}</h4>
+  <button mat-flat-button color="accent"  (click)="createTaskDialog()">
+    <mat-icon class="me-1">add</mat-icon> Create Task
+</button>
+</div>
+
+<div *ngFor="let group of groupedTasks">
+  <h5>{{ group.taskStatus }}</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item" *ngFor="let task of group.tasks">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h6>{{ task.taskTitle }}</h6>
+          <small class="text-muted">{{ task.taskDescription }}</small
+          ><br />
+          <span *ngIf="isOverdue(task.taskDueDate)" class="badge bg-warning text-dark me-1">
+            Overdue
+          </span>
+          <small>Due: {{ task.taskDueDate | date }}</small>
+        </div>
+
+        <!-- Action buttons for changing status -->
+        <div *ngIf="group.taskStatus === 'ToDo'">
+          <button
+            class="btn btn-sm btn-outline-primary me-1"
+            (click)="updateTaskStatus(task.id, 'InProgress')"
+          >
+            Move to In Progress
+          </button>
+          <button
+            class="btn btn-sm btn-outline-success"
+            (click)="updateTaskStatus(task.id, 'Done')"
+          >
+            Move to Done
+          </button>
+        </div>
+        <div *ngIf="group.taskStatus === 'InProgress'">
+          <button
+            class="btn btn-sm btn-outline-primary me-1"
+            (click)="updateTaskStatus(task.id, 'Done')"
+          >
+            Move to Done
+          </button>
+          <button
+            class="btn btn-sm btn-outline-success"
+            (click)="updateTaskStatus(task.id, 'ToDo')"
+          >
+            Move to ToDo
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
