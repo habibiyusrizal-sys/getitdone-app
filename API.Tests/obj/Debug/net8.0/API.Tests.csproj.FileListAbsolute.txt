@@ -204,3 +204,4 @@
 /Users/habibi.yusrizal/Documents/DotnetProjects/getitdone-app/API.Tests/obj/Debug/net8.0/API.Tests.pdb
 /Users/habibi.yusrizal/Documents/DotnetProjects/getitdone-app/API.Tests/obj/Debug/net8.0/API.Tests.genruntimeconfig.cache
 /Users/habibi.yusrizal/Documents/DotnetProjects/getitdone-app/API.Tests/obj/Debug/net8.0/ref/API.Tests.dll
+/Users/habibi.yusrizal/Documents/DotnetProjects/getitdone-app/API.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll

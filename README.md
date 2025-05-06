@@ -31,7 +31,7 @@ dotnet test
 ## ✅ Feature List
 
 - 🔍 View all projects and their associated tasks
-- ➕ Create new tasks
+- ➕ Create new project, add new task
 - 🗂 Group tasks by status (To Do, In Progress, Done)
 - 📆 Highlight overdue tasks
 - ↔️ Navigate between Project and Task views
