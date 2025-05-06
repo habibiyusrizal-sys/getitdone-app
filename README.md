@@ -45,6 +45,15 @@ dotnet test
 - `taskDueDate` is optional, but when provided, it's used to highlight overdue tasks.
 - `taskStatus` is submitted as a string and mapped to an Enum in the backend.
 
+## 📸 Screenshots
+![Home Page](screenshots/home-page.png)
+![Task Page](screenshots/task-page.png)
+
+### ➕ Create Task and Project
+![Create Task](screenshots/create-task.png)
+![Create Project](screenshots/create-project.png)
+
+
 ## 👨‍💼 Author
 Habibi – Software Engineer
 
